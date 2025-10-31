@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESET ARENA - AI × High-End Wellness Retreat</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        /* =============== Variables & Reset =============== */
+        :root {
+            --ink: #0B0F14;
+            --dark-ink: #12161C;
+            --ivory: #F4F4F2;
+            --cyan: #06b6d4;
+            --gold: #C6A15B;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.3);
+            --rounded: 1rem;
+            --rounded-xl: 1.5rem;
+            --rounded-2xl: 2rem;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+        
+        body {
+            font-family: 'Pretendard', 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--ink);
+            color: var(--ivory);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* =============== Typography =============== */
+        h1, h2, h3, h4 {
+            font-family: 'Sora', 'Pretendard', sans-serif;
+            font-weight: 300;
+            line-height: 1.2;
+        }
+        
+        h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        
+        h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        
+        .eyebrow {
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--cyan);
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+        
+        .lead {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            opacity: 0.85;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        
+        /* =============== Navigation =============== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(11, 15, 20, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            background: rgba(11, 15, 20, 0.95);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--ivory);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-menu a {
+            color: var(--ivory);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-menu a:hover {
+            opacity: 1;
+            color: var(--cyan);
+        }
+        
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--cyan);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+        
+        /* =============== Hero Section =============== */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .hero-title {
+            background: linear-gradient(135deg, var(--ivory), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-message {
+            font-size: 1.125rem;
+            opacity: 0.7;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+        
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .cta-primary, .cta-secondary {
+            padding: 1rem 2.5rem;
+            border-radius: var(--rounded-2xl);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .cta-primary {
+            background: linear-gradient(135deg, var(--cyan), #0891b2);
+            color: var(--ink);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
+        }
+        
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(6, 182, 212, 0.4);
+        }
+        
+        .cta-secondary {
+            border: 2px solid var(--glass-border);
+            color: var(--ivory);
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+        }
+        
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--cyan);
+        }
+        
+        /* =============== Section Styles =============== */
+        section {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        /* =============== Divider =============== */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent,
+                var(--cyan) 20%,
+                var(--cyan) 80%,
+                transparent
+            );
+            margin: 0 auto;
+            opacity: 0.3;
+            max-width: 80%;
+        }
+        
+        /* =============== Glass Cards =============== */
+        .glass-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--rounded-2xl);
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(6, 182, 212, 0.3);
+            box-shadow: 
+                0 20px 60px rgba(6, 182, 212, 0.1),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent
+            );
+        }
+        
+        /* =============== Grid Layouts =============== */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+        }
+        
+        /* =============== Customer Section =============== */
+        #customer .info-card {
+            padding: 2.5rem;
+        }
+        
+        .info-card h3 {
+            color: var(--cyan);
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-card ul {
+            list-style: none;
+        }
+        
+        .info-card li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .info-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            opacity: 0.7;
+        }
+        
+        /* =============== Channels Section =============== */
+        #channels .channel-card {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        
+        .channel-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--cyan), #0891b2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        /* =============== Product Section =============== */
+        #product .module-card {
+            padding: 2.5rem;
+            position: relative;
+        }
+        
+        .module-number {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gold), #b8935a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        
+        .module-card h3 {
+            color: var(--cyan);
+            margin-bottom: 1rem;
+            padding-right: 3rem;
+        }
+        
+        .module-meta {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+        }
+        
+        .module-meta p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin: 0.5rem 0;
+        }
+        
+        .mission-statement {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.05), rgba(198, 161, 91, 0.05));
+            border-radius: var(--rounded-2xl);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .mission-statement h4 {
+            color: var(--gold);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        /* =============== Differentiation Section =============== */
+        #differentiation .diff-card {
+            padding: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--glass), rgba(6, 182, 212, 0.02));
+        }
+        
+        .diff-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.3));
+        }
+        
+        .diff-card h3 {
+            color: var(--gold);
+            font-size: 1.25rem;
+        }
+        
+        /* =============== Resources Section =============== */
+        #resources .location-card {
+            overflow: hidden;
+        }
+        
+        .location-header {
+            background: linear-gradient(135deg, var(--dark-ink), #1a1f26);
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .location-header h3 {
+            color: var(--cyan);
+            margin: 0;
+        }
+        
+        .location-body {
+            padding: 2rem;
+        }
+        
+        .location-features {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        
+        .location-features li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .location-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+        
+        .resource-grid {
+            margin-top: 3rem;
+        }
+        
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--glass);
+            border-radius: var(--rounded-xl);
+            margin-bottom: 1rem;
+        }
+        
+        .resource-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--cyan), #0891b2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        /* =============== CTA Section =============== */
+        #cta-section {
+            padding: 8rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--dark-ink), var(--ink));
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--cyan), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* =============== Footer =============== */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            background: var(--dark-ink);
+        }
+        
+        .footer-notice {
+            font-size: 0.875rem;
+            opacity: 0.6;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* =============== Responsive =============== */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .grid-3, .grid-4, .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 4rem 1.5rem;
+            }
+        }
+        
+        /* =============== Animation Classes =============== */
+        [data-anim] {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .anim-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* =============== Loading State =============== */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--ink);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading.loaded {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--glass-border);
+            border-top-color: var(--cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">RESET ARENA</a>
+            <ul class="nav-menu">
+                <li><a href="#customer">#1 고객</a></li>
+                <li><a href="#channels">#2 채널</a></li>
+                <li><a href="#product">#3 상품</a></li>
+                <li><a href="#differentiation">#4 차별성</a></li>
+                <li><a href="#resources">#5 자원</a></li>
+                <li><a href="#cta-section">CTA</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <canvas id="particle-canvas"></canvas>
+        <div class="hero-content" data-anim>
+            <h1 class="hero-title">RESET ARENA</h1>
+            <p class="hero-subtitle">AI × High-End Wellness Retreat — 2박 3일</p>
+            <p class="hero-message">
+                AI로 나를 관찰하고, 자연에서 회복하며, 데이터로 변화를 이해한다.
+            </p>
+            <div class="cta-group">
+                <a href="#product" class="cta-primary">프로그램 보기</a>
+                <a href="#" class="cta-secondary">사전 신청</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- #1 고객 Section -->
+    <section id="customer">
+        <div class="container">
+            <div class="section-header" data-anim>
+                <p class="eyebrow">#1 Customer Analysis</p>
+                <h2>고객의 인구통계학적 정보 및 니즈</h2>
+                <p class="lead">
+                    AI 시대의 하이퍼포머들이 직면한 새로운 피로와 그들이 원하는 진정한 솔루션
+                </p>
+            </div>
+            
+            <div style="margin-bottom: 3rem;" data-anim>
+                <h3 style="text-align: center; color: var(--gold); margin-bottom: 2rem;">🎯 타겟 고객 프로파일</h3>
+                <div class="grid-4">
+                    <div class="glass-card" style="text-align: center; padding: 1.5rem;">
+                        <h4 style="color: var(--cyan); font-size: 2rem; margin-bottom: 0.5rem;">30-50대</h4>
+                        <p style="font-size: 0.9rem;">전문직·창업가<br>크리에이터·기업 관리자층</p>
+                    </div>
+                    <div class="glass-card" style="text-align: center; padding: 1.5rem;">
+                        <h4 style="color: var(--cyan); font-size: 2rem; margin-bottom: 0.5rem;">남녀 모두</h4>
+                        <p style="font-size: 0.9rem;">업무 스트레스 및<br>정신적 과부하 경험자</p>
+                    </div>
+                    <div class="glass-card" style="text-align: center; padding: 1.5rem;">
+                        <h4 style="color: var(--cyan); font-size: 2rem; margin-bottom: 0.5rem;">수도권+α</h4>
+                        <p style="font-size: 0.9rem;">서울·성남·부산 등<br>해외 교포·디지털 노마드</p>
+                    </div>
+                    <div class="glass-card" style="text-align: center; padding: 1.5rem;">
+                        <h4 style="color: var(--cyan); font-size: 2rem; margin-bottom: 0.5rem;">800-2000만+</h4>
+                        <p style="font-size: 0.9rem;">월 소득 기준<br>프리미엄 자기관리 소비층</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid-3">
+                <div class="glass-card info-card" data-anim>
+                    <h3>🔴 문제 인식</h3>
+                    <p style="font-weight: 600; color: var(--gold); margin-bottom: 1rem;">그들이 겪는 고통</p>
+                    <ul>
+                        <li>과도한 디지털·AI 업무 환경 속에서 집중력 저하</li>
+                        <li>수면 문제와 창의력 저하의 악순환</li>
+                        <li>기존 명상·요가형 웰니스는 "감정적 체험"에 머물러 지적·과학적 만족감 부족</li>
+                        <li>즉흥적 리프레시에 그치는 일회성 프로그램의 한계</li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card info-card" data-anim>
+                    <h3>💡 니즈 분석</h3>
+                    <p style="font-weight: 600; color: var(--gold); margin-bottom: 1rem;">그들이 원하는 것</p>
+                    <ul>
+                        <li>데이터 기반으로 뇌와 감정 상태를 객관적으로 분석</li>
+                        <li>결과를 리포트 형태로 시각화해 피드백받는 고도화된 경험</li>
+                        <li>단순 휴식이 아닌 정신적 효율성과 창의성 회복</li>
+                        <li>지속 가능한 자기관리 루틴 설계</li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card info-card" data-anim>
+                    <h3>🎯 핵심 인사이트</h3>
+                    <p style="font-weight: 600; color: var(--gold); margin-bottom: 1rem;">우리의 기회</p>
+                    <ul>
+                        <li>AI 시대의 새로운 피로 = 새로운 솔루션 필요</li>
+                        <li>과학적 검증과 데이터 중시하는 전문가층</li>
+                        <li>프리미엄 가격에도 가치를 인정받으면 기꺼이 지불</li>
+                        <li>"자기 최적화"에 대한 강한 욕구</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- #2 채널 Section -->
+    <section id="channels">
+        <div class="container">
+            <div class="section-header" data-anim>
+                <p class="eyebrow">#2 Channels & Sales Strategy</p>
+                <h2>홍보 및 판매 방안</h2>
+                <p class="lead">
+                    프리미엄 타겟에 도달하는 정교한 채널 전략과 판매 모델
+                </p>
+            </div>
+            
+            <div class="glass-card" style="margin-bottom: 3rem; background: linear-gradient(135deg, rgba(6, 182, 212, 0.05), rgba(198, 161, 91, 0.05));" data-anim>
+                <h3 style="text-align: center; color: var(--gold); margin-bottom: 1.5rem;">📍 채널 전략 Overview</h3>
+                <p style="text-align: center; font-size: 1.1rem; line-height: 1.8;">
+                    "AI로 나를 리셋하다" — 통합 브랜딩 캠페인<br>
+                    디지털 네이티브 하이퍼포머를 위한 프리미엄 포지셔닝
+                </p>
+            </div>
+            
+            <div class="grid-3">
+                <div class="glass-card channel-card" data-anim>
+                    <div class="channel-icon">📱</div>
+                    <h3>디지털 채널</h3>
+                    <ul style="list-style: none; text-align: left; padding: 0;">
+                        <li style="margin: 0.5rem 0;">✓ X(트위터), LinkedIn — Thought Leadership 콘텐츠</li>
+                        <li style="margin: 0.5rem 0;">✓ Instagram — Visual Storytelling</li>
+                        <li style="margin: 0.5rem 0;">✓ AI·비즈니스 커뮤니티 협업<br><span style="font-size: 0.9rem; opacity: 0.8;">(FastFIVE, OpenAI Korea, 스타트업 포럼)</span></li>
+                        <li style="margin: 0.5rem 0;">✓ 프리미엄 멤버십 플랫폼 제휴<br><span style="font-size: 0.9rem; opacity: 0.8;">(Class101+, Hidden, 트래블클럽)</span></li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card channel-card" data-anim>
+                    <div class="channel-icon">🏢</div>
+                    <h3>오프라인 채널</h3>
+                    <ul style="list-style: none; text-align: left; padding: 0;">
+                        <li style="margin: 0.5rem 0;">✓ 기업 리더십 리트릿 패키지</li>
+                        <li style="margin: 0.5rem 0;">✓ 크리에이터 워크숍</li>
+                        <li style="margin: 0.5rem 0;">✓ 스타트업 창업캠프 협업</li>
+                        <li style="margin: 0.5rem 0;">✓ 고급 피트니스·골프클럽 공동 마케팅</li>
+                        <li style="margin: 0.5rem 0;">✓ 명상센터 회원층 타겟 프로모션</li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card channel-card" data-anim>
+                    <div class="channel-icon">🎯</div>
+                    <h3>전략적 제휴</h3>
+                    <ul style="list-style: none; text-align: left; padding: 0;">
+                        <li style="margin: 0.5rem 0;">✓ 아난티, 소노펠리체 등<br>하이엔드 리조트 브랜디드 협업</li>
+                        <li style="margin: 0.5rem 0;">✓ 웰니스 테크 브랜드 콜라보</li>
+                        <li style="margin: 0.5rem 0;">✓ 기업 복지 플랫폼 입점</li>
+                        <li style="margin: 0.5rem 0;">✓ VIP 컨시어지 서비스 연계</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="glass-card" style="margin-top: 3rem; padding: 2.5rem;" data-anim>
+                <h3 style="color: var(--gold); margin-bottom: 2rem; text-align: center;">💼 판매 모델 & 가격 전략</h3>
+                <div class="grid-3">
+                    <div style="text-align: center; padding: 1.5rem; background: var(--glass); border-radius: var(--rounded-xl);">
+                        <h4 style="color: var(--cyan); margin-bottom: 1rem;">Founder Mind Reset</h4>
+                        <p style="font-size: 1.5rem; font-weight: 700; color: var(--gold);">250만원</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">프리미엄 1:1 컨설팅<br>심화 데이터 분석 리포트</p>
+                    </div>
+                    <div style="text-align: center; padding: 1.5rem; background: var(--glass); border-radius: var(--rounded-xl);">
+                        <h4 style="color: var(--cyan); margin-bottom: 1rem;">B2B Custom</h4>
+                        <p style="font-size: 1.5rem; font-weight: 700; color: var(--gold);">맞춤 견적</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">기업 단체 프로그램<br>커스텀 리포트형 모델</p>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 2rem; color: var(--cyan); font-weight: 600;">
+                    개인 참가 외에도 기업 단체 프로그램 및 커스텀 리포트형 B2B 모델 제공
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- #3 상품 Section -->
+    <section id="product">
+        <div class="container">
+            <div class="section-header" data-anim>
+                <p class="eyebrow">#3 Product Design</p>
+                <h2>Reset Arena — AI 기반 프리미엄 리셋 리트릿</h2>
+                <p class="lead">
+                    2박 3일, 고소득 전문직·창업가·하이퍼포머를 위한 과학적 자기 리커넥션 프로그램
+                </p>
+            </div>
+            
+            <div class="glass-card" style="text-align: center; margin-bottom: 3rem; background: linear-gradient(135deg, rgba(6, 182, 212, 0.05), rgba(198, 161, 91, 0.05));" data-anim>
+                <h3 style="color: var(--gold); margin-bottom: 1rem;">🎯 핵심 목표</h3>
+                <p style="font-size: 1.2rem; line-height: 1.8;">
+                    "AI로 나를 관찰하고, 자연에서 나를 회복하며,<br>
+                    데이터로 내 변화를 확인하는 하이엔드 자기 리커넥션 프로그램"
+                </p>
+            </div>
+            
+            <h3 style="text-align: center; color: var(--cyan); margin-bottom: 3rem;" data-anim>📋 핵심 프로그램 구성</h3>
+            
+            <div class="grid-2">
+                <div class="glass-card module-card" data-anim>
+                    <div class="module-number">1</div>
+                    <h3>사운드테라피 & 브레인웨이브 세션</h3>
+                    <p style="margin-bottom: 1rem;">AI가 뇌파·심박 데이터를 분석해 개인 맞춤 주파수 제공 (뉴로피드백 기반)</p>
+                    <div class="module-meta">
+                        <div style="background: rgba(6, 182, 212, 0.1); padding: 1rem; border-radius: var(--rounded-xl); margin-bottom: 0.5rem;">
+                            <p><strong style="color: var(--cyan);">WHY?</strong> 과도 각성을 완화하고 몰입/이완 상태로 동조</p>
+                        </div>
+                        <div style="background: rgba(198, 161, 91, 0.1); padding: 1rem; border-radius: var(--rounded-xl); margin-bottom: 0.5rem;">
+                            <p><strong style="color: var(--gold);">HOW?</strong> EEG·HRV 측정 → AI 분석 → 맞춤형 주파수 생성</p>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: var(--rounded-xl);">
+                            <p><strong>RESULT:</strong> 스트레스 감소, 인지 명료화, 수면 질 개선</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card module-card" data-anim>
+                    <div class="module-number">2</div>
+                    <h3>AI 저널링 & 비주얼 창작 세션</h3>
+                    <p style="margin-bottom: 1rem;">감정 데이터 시각화 및 인사이트 리포트 생성</p>
+                    <div class="module-meta">
+                        <div style="background: rgba(6, 182, 212, 0.1); padding: 1rem; border-radius: var(--rounded-xl); margin-bottom: 0.5rem;">
+                            <p><strong style="color: var(--cyan);">WHY?</strong> 감정의 외화로 자기 인식 강화</p>
+                        </div>
+                        <div style="background: rgba(198, 161, 91, 0.1); padding: 1rem; border-radius: var(--rounded-xl); margin-bottom: 0.5rem;">
+                            <p><strong style="color: var(--gold);">HOW?</strong> 텍스트 입력 → AI 감정 분석 → 시각 아트 변환</p>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: var(--rounded-xl);">
+                            <p><strong>RESULT:</strong> 카타르시스, 패턴 인지, 창의성 회복</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card module-card" data-anim>
+                    <div class="module-number">3</div>
+                    <h3>자연 속 리플렉션 워크숍</h3>
+                    <p style="margin-bottom: 1rem;">사색 카드 기반 내면 탐구 및 디지털 디톡스</p>
+                    <div class="module-meta">
+                        <div style="background: rgba(6, 182, 212, 0.1); padding: 1rem; border-radius: var(--rounded-xl); margin-bottom: 0.5rem;">
+                            <p><strong style="color: var(--cyan);">WHY?</strong> AI 의존에서 벗어나 자율적 사고 회복</p>
+                        </div>
+                        <div style="background: rgba(198, 161, 91, 0.1); padding: 1rem; border-radius: var(--rounded-xl); margin-bottom: 0.5rem;">
+                            <p><strong style="color: var(--gold);">HOW?</strong> 디지털 OFF → 사색 카드 → 자연 산책 → 내면 대화</p>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: var(--rounded-xl);">
+                            <p><strong>RESULT:</strong> 정서 안정, 내면 리커넥션, 사고의 명료화</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card module-card" data-anim>
+                    <div class="module-number">4</div>
+                    <h3>AI 피드백 리포트 세션</h3>
+                    <p style="margin-bottom: 1rem;">뇌파·감정·스트레스 데이터를 종합해 개인 웰니스 리포트 제공</p>
+                    <div class="module-meta">
+                        <div style="background: rgba(6, 182, 212, 0.1); padding: 1rem; border-radius: var(--rounded-xl); margin-bottom: 0.5rem;">
+                            <p><strong style="color: var(--cyan);">WHY?</strong> 변화 과정을 객관적 데이터로 이해</p>
+                        </div>
+                        <div style="background: rgba(198, 161, 91, 0.1); padding: 1rem; border-radius: var(--rounded-xl); margin-bottom: 0.5rem;">
+                            <p><strong style="color: var(--gold);">HOW?</strong> 데이터 통합 → AI 분석 → 시각화 → 맞춤 제안</p>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: var(--rounded-xl);">
+                            <p><strong>RESULT:</strong> 개인 맞춤 루틴 제안, 사후 지속성 강화</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mission-statement" data-anim>
+                <h4>"측정 → 사색 → 피드백"으로 감정과 뇌의 리듬을 정렬한다</h4>
+                <p style="margin-top: 1rem; opacity: 0.8;">과학적 데이터와 자연의 지혜를 결합한 통합적 접근</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- #4 차별성 Section -->
+    <section id="differentiation">
+        <div class="container">
+            <div class="section-header" data-anim>
+                <p class="eyebrow">#4 Differentiation Points</p>
+                <h2>웰니스상품의 차별성</h2>
+                <p class="lead">
+                    기존 웰니스와는 차원이 다른 과학적·데이터 중심 접근
+                </p>
+            </div>
+            
+            <div class="glass-card" style="margin-bottom: 3rem; text-align: center; background: linear-gradient(135deg, rgba(6, 182, 212, 0.05), rgba(198, 161, 91, 0.05));" data-anim>
+                <h3 style="color: var(--gold); margin-bottom: 1rem;">💎 핵심 차별화 전략</h3>
+                <p style="font-size: 1.1rem;">
+                    "감정적 힐링"이 아닌 "인지적 효율 회복"<br>
+                    집중력·창의성 회복을 목표로 설계된 성과 중심 프로그램
+                </p>
+            </div>
+            
+            <div class="grid-4">
+                <div class="glass-card diff-card" data-anim>
+                    <div class="diff-icon">🧬</div>
+                    <h3>AI 융합형 과학적 웰니스</h3>
+                    <p style="font-weight: 600; color: var(--cyan); margin: 1rem 0;">단순 명상 ❌</p>
+                    <p>EEG·HRV 기반 생체 데이터 분석<br>맞춤 사운드 피드백 제공<br>과학적 검증 가능한 결과</p>
+                </div>
+                
+                <div class="glass-card diff-card" data-anim>
+                    <div class="diff-icon">📊</div>
+                    <h3>데이터 시각화 리포트</h3>
+                    <p style="font-weight: 600; color: var(--cyan); margin: 1rem 0;">마음의 리포트</p>
+                    <p>AI 저널링과 감정 패턴 분석<br>참가자별 맞춤 리포트 생성<br>객관적 자기 인식 가능</p>
+                </div>
+                
+                <div class="glass-card diff-card" data-anim>
+                    <div class="diff-icon">💎</div>
+                    <h3>하이엔드 경험 디자인</h3>
+                    <p style="font-weight: 600; color: var(--cyan); margin: 1rem 0;">프리미엄 Only</p>
+                    <p>전문직 고객층 맞춤 설계<br>프라이버시 중심 환경<br>감각적 공간 연출</p>
+                </div>
+                
+                <div class="glass-card diff-card" data-anim>
+                    <div class="diff-icon">🎯</div>
+                    <h3>성과 중심 웰니스</h3>
+                    <p style="font-weight: 600; color: var(--cyan); margin: 1rem 0;">ROI 측정 가능</p>
+                    <p>인지적 효율 회복 목표<br>Before/After 데이터 비교<br>지속 가능한 루틴 설계</p>
+                </div>
+            </div>
+            
+            <div class="glass-card" style="margin-top: 3rem; padding: 2rem;" data-anim>
+                <h3 style="text-align: center; color: var(--cyan); margin-bottom: 2rem;">🔄 경쟁사 대비 포지셔닝</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
+                    <div style="padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: var(--rounded-xl);">
+                        <p style="font-weight: 600; color: var(--gold);">기존 명상 리트릿</p>
+                        <p style="font-size: 0.9rem; opacity: 0.7;">감성적·주관적·일회성</p>
+                    </div>
+                    <div style="padding: 1rem; background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(198, 161, 91, 0.1)); border-radius: var(--rounded-xl); border: 2px solid var(--cyan);">
+                        <p style="font-weight: 600; color: var(--cyan);">Reset Arena</p>
+                        <p style="font-size: 0.9rem;">과학적·데이터·지속가능</p>
+                    </div>
+                    <div style="padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: var(--rounded-xl);">
+                        <p style="font-weight: 600; color: var(--gold);">일반 스파/호텔</p>
+                        <p style="font-size: 0.9rem; opacity: 0.7;">휴식·편안함·수동적</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- #5 자원 Section -->
+    <section id="resources">
+        <div class="container">
+            <div class="section-header" data-anim>
+                <p class="eyebrow">#5 Resources & Infrastructure</p>
+                <h2>웰니스 자원</h2>
+                <p class="lead">
+                    프리미엄 공간과 첨단 기술, 전문 인력의 완벽한 조화
+                </p>
+            </div>
+            
+            <h3 style="text-align: center; color: var(--cyan); margin-bottom: 2rem;" data-anim>🏔️ 프리미엄 공간 후보</h3>
+            
+            <div class="grid-3">
+                <div class="glass-card location-card" data-anim>
+                    <div class="location-header">
+                        <h3>아난티 남해/코브</h3>
+                    </div>
+                    <div class="location-body">
+                        <p style="font-weight: 600; color: var(--gold); margin-bottom: 1rem;">자연·디자인·프라이버시 삼박자</p>
+                        <ul class="location-features">
+                            <li>바다와 숲의 조화로운 자연 환경</li>
+                            <li>독립적인 빌라형 프라이빗 공간</li>
+                            <li>감각적 인테리어와 명상 공간</li>
+                            <li>브랜디드 리트릿 경험 풍부</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="glass-card location-card" data-anim>
+                    <div class="location-header">
+                        <h3>소노펠리체/블루마운틴</h3>
+                    </div>
+                    <div class="location-body">
+                        <p style="font-weight: 600; color: var(--gold); margin-bottom: 1rem;">조용한 환경과 기술 설치 용이</p>
+                        <ul class="location-features">
+                            <li>깊은 숲속의 완벽한 프라이버시</li>
+                            <li>AI 세션룸 설치 최적 구조</li>
+                            <li>그룹 세션/장비 설치 용이</li>
+                            <li>자연 속 리플렉션 최적 환경</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="glass-card location-card" data-anim>
+                    <div class="location-header">
+                        <h3>용평 포레스트 레지던스</h3>
+                    </div>
+                    <div class="location-body">
+                        <p style="font-weight: 600; color: var(--gold); margin-bottom: 1rem;">자작나무 숲 프리미엄 레지던스</p>
+                        <ul class="location-features">
+                            <li>79-230평형대 독립형 빌라</li>
+                            <li>완벽한 방음과 프라이버시</li>
+                            <li>AI 사운드세션/저널링룸 설치 가능</li>
+                            <li>리플렉션 워크숍용 숲길 완비</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-card" style="margin-top: 3rem; padding: 2.5rem;" data-anim>
+                <h3 style="text-align: center; color: var(--gold); margin-bottom: 2rem;">🔧 기술 & 인력 자원</h3>
+                <div class="grid-2">
+                    <div>
+                        <h4 style="color: var(--cyan); margin-bottom: 1.5rem;">⚡ 기술 인프라</h4>
+                        <div class="resource-item">
+                            <div class="resource-icon">🧠</div>
+                            <div>
+                                <strong>측정 기술:</strong> EEG 센서, HRV 트래커<br>
+                                <span style="font-size: 0.9rem; opacity: 0.8;">실시간 뇌파·심박 모니터링</span>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-icon">🤖</div>
+                            <div>
+                                <strong>AI 시스템:</strong> 저널링 시스템, 감정 분석 알고리즘<br>
+                                <span style="font-size: 0.9rem; opacity: 0.8;">데이터 시각화 및 리포트 생성</span>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-icon">🎵</div>
+                            <div>
+                                <strong>사운드 장비:</strong> 뉴로피드백 시스템<br>
+                                <span style="font-size: 0.9rem; opacity: 0.8;">맞춤형 주파수 생성 및 재생</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--cyan); margin-bottom: 1.5rem;">👥 전문 인력</h4>
+                        <div class="resource-item">
+                            <div class="resource-icon">💼</div>
+                            <div>
+                                <strong>웰니스 코치:</strong> 1:1 맞춤 가이드<br>
+                                <span style="font-size: 0.9rem; opacity: 0.8;">프로그램 전반 퍼실리테이션</span>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-icon">📊</div>
+                            <div>
+                                <strong>AI 데이터 컨설턴트:</strong> 리포트 해석<br>
+                                <span style="font-size: 0.9rem; opacity: 0.8;">개인별 데이터 분석 및 제안</span>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-icon">🎧</div>
+                            <div>
+                                <strong>사운드테라피 전문가:</strong> 세션 진행<br>
+                                <span style="font-size: 0.9rem; opacity: 0.8;">브레인웨이브 동조 가이드</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-card" style="margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, rgba(6, 182, 212, 0.05), rgba(198, 161, 91, 0.05));" data-anim>
+                <h4 style="text-align: center; color: var(--gold); margin-bottom: 1rem;">🌿 공간 설계 컨셉</h4>
+                <div style="text-align: center;">
+                    <p style="font-size: 1.1rem; line-height: 1.8;">
+                        <strong>실내:</strong> AI 분석 스테이션 / 비주얼 세션룸 / 저널링 라운지<br>
+                        <strong>실외:</strong> 사운드돔 명상존 / 사색 트레일 / 해변·숲 리플렉션 존<br>
+                        <span style="color: var(--cyan); font-weight: 600;">숲·바다·밤하늘 — 감각적 회복을 위한 5감 환경 구성</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- CTA Section -->
+    <section id="cta-section">
+        <div class="container">
+            <h2 class="cta-title" data-anim>48시간, 나의 시스템을 리부팅하다.</h2>
+            <div class="cta-group" data-anim>
+                <a href="#hero" class="cta-secondary">상단으로</a>
+                <a href="#" class="cta-primary">사전 신청</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-notice">
+            © Reset Arena · Internal Presentation<br>
+            본 페이지는 교육·내부 공유 목적이며 의료 서비스가 아닙니다.
+        </p>
+    </footer>
+
+    <script>
+        // =============== Particle Canvas ===============
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Mouse parallax effect
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 200) {
+                    this.x -= dx * 0.0001;
+                    this.y -= dy * 0.0001;
+                }
+                
+                // Wrap around edges
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            
+            draw() {
+                ctx.fillStyle = `rgba(6, 182, 212, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            particles = [];
+            for (let i = 0; i < 50; i++) {
+                particles.push(new Particle());
+            }
+        }
+        
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            requestAnimationFrame(animateParticles);
+        }
+        
+        // Mouse tracking
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        // Resize handler
+        window.addEventListener('resize', initCanvas);
+        
+        // Initialize
+        initCanvas();
+        animateParticles();
+        
+        // =============== Scroll Animations with GSAP ===============
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Animate elements on scroll
+        document.querySelectorAll('[data-anim]').forEach((element, index) => {
+            gsap.fromTo(element,
+                {
+                    opacity: 0,
+                    y: 30
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        once: true
+                    },
+                    delay: index * 0.05
+                }
+            );
+        });
+        
+        // Hero entrance animation
+        gsap.timeline()
+            .fromTo('.hero-title',
+                { opacity: 0, y: 50 },
+                { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }
+            )
+            .fromTo('.hero-subtitle',
+                { opacity: 0, y: 30 },
+                { opacity: 0.8, y: 0, duration: 0.8, ease: "power2.out" },
+                "-=0.6"
+            )
+            .fromTo('.hero-message',
+                { opacity: 0, y: 20 },
+                { opacity: 0.7, y: 0, duration: 0.8, ease: "power2.out" },
+                "-=0.4"
+            )
+            .fromTo('.cta-group',
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+                "-=0.4"
+            );
+        
+        // Card hover effects
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    scale: 1.02,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+        
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const targetPosition = target.offsetTop - offset;
+                    
+                    gsap.to(window, {
+                        scrollTo: {
+                            y: targetPosition,
+                            autoKill: false
+                        },
+                        duration: 1,
+                        ease: "power2.inOut"
+                    });
+                }
+            });
+        });
+        
+        // Remove loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('loaded');
+            }, 500);
+        });
+        
+        // Parallax effect for hero content
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroContent = document.querySelector('.hero-content');
+            if (heroContent && scrolled < window.innerHeight) {
+                heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+                heroContent.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
+            }
+        });
+        
+        // Section reveal with stagger
+        ScrollTrigger.batch(".grid-3 > *, .grid-4 > *, .grid-2 > *", {
+            start: "top 85%",
+            once: true,
+            onEnter: batch => gsap.to(batch, {
+                opacity: 1,
+                y: 0,
+                stagger: 0.1,
+                duration: 0.8,
+                ease: "power2.out",
+                overwrite: "auto"
+            })
+        });
+        
+        // Number counter animation for module cards
+        const moduleNumbers = document.querySelectorAll('.module-number');
+        moduleNumbers.forEach(num => {
+            ScrollTrigger.create({
+                trigger: num,
+                start: "top 80%",
+                once: true,
+                onEnter: () => {
+                    gsap.fromTo(num,
+                        { scale: 0, rotation: -180 },
+                        { scale: 1, rotation: 0, duration: 0.8, ease: "back.out(1.7)" }
+                    );
+                }
+            });
+        });
+        
+        // Divider glow animation
+        const dividers = document.querySelectorAll('.divider');
+        dividers.forEach(divider => {
+            ScrollTrigger.create({
+                trigger: divider,
+                start: "top 90%",
+                once: true,
+                onEnter: () => {
+                    gsap.fromTo(divider,
+                        { opacity: 0, scaleX: 0 },
+                        { opacity: 0.3, scaleX: 1, duration: 1.5, ease: "power2.out" }
+                    );
+                }
+            });
+        });
+    </script>
+</body>
+</html>
